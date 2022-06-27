@@ -10,21 +10,14 @@ const LoginPage = (props) => {
     <div>
       <h1>Employee Polls</h1>
       <h2>Login Here</h2>
-      <form>
-        <select>
-          {users.forEach((user) => {
-            <option key={user.id}>{user.name}</option>;
-          })}
-        </select>
-      </form>
+      <form></form>
     </div>
   );
 };
 
-function mapStateToProps({ users, authedUser }) {
+function mapStateToProps({ users }) {
   return {
     users: users,
-    authedUser: authedUser,
   };
 }
 

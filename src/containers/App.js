@@ -24,15 +24,27 @@ const App = (props) => {
   return (
     <Fragment>
       <main className="main-container">
-        <Nav />
-        <UserIndicator />
+        {props.authedUser && (
+          <header>
+            <Nav />
+            <UserIndicator />
+          </header>
+        )}
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/" exact element={<Dashboard />} />
+          <Route
+            path="/"
+            exact
+            element={
+              <ProtectedRoute user={props.authedUser}>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/questions/:question_id"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute user={props.authedUser}>
                 <PollPage />
               </ProtectedRoute>
             }
@@ -40,7 +52,7 @@ const App = (props) => {
           <Route
             path="/leaderboard"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute user={props.authedUser}>
                 <LeaderboardPage />
               </ProtectedRoute>
             }
@@ -48,7 +60,7 @@ const App = (props) => {
           <Route
             path="/add"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute user={props.authedUser}>
                 <PollCreationPage />
               </ProtectedRoute>
             }
@@ -60,4 +72,8 @@ const App = (props) => {
   );
 };
 
-export default connect()(App);
+const mapStateToProps = ({ authedUser }) => ({
+  authedUser: authedUser,
+});
+
+export default connect(mapStateToProps)(App);
