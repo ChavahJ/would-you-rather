@@ -19,7 +19,7 @@ import { Routes, Route } from "react-router-dom";
 const App = (props) => {
   useEffect(() => {
     props.dispatch(handleInitialData());
-  }, []);
+  }, [props]);
 
   return (
     <Fragment>
