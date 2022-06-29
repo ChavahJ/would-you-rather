@@ -24,9 +24,7 @@ const LoginPage = (props) => {
     event.preventDefault();
     const { dispatch } = props;
     dispatch(setAuthedUser(userId));
-    if (props.authedUser !== null) {
-      navigate("/");
-    }
+    navigate("/");
   };
 
   return (
