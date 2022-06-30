@@ -1,7 +1,3 @@
-// There should be a way for the user to impersonate/ log in as an existing user.
-// Whenever the user types something in the address bar, the user is asked to log in before the requested page is shown.
-// Once the user logs in, the home page is shown.
-
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";

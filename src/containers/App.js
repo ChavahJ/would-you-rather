@@ -6,8 +6,7 @@ import { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import { handleInitialData } from "../actions/shared";
 import LoginPage from "./LoginPage";
-import Nav from "../components/Nav";
-import UserIndicator from "../components/UserIndicator";
+import Navbar from "../containers/Navbar";
 import Dashboard from "./Dashboard";
 import PollPage from "./PollPage";
 import PollCreationPage from "./PollCreationPage";
@@ -31,8 +30,7 @@ const App = (props) => {
       <main className="main-container">
         {props.authedUser && (
           <header>
-            <Nav />
-            <UserIndicator />
+            <Navbar />
           </header>
         )}
         <Routes>
