@@ -1,17 +1,34 @@
 // A polling question links to details of that poll.
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { formatDate } from "../utils/api";
+import Card from "react-bootstrap/Card";
 
-import { useNavigate, Link } from "react-router-dom";
-
-const QuestionCard = () => {
+const QuestionCard = (props) => {
+  const { author, timestamp } = props.question;
   return (
-    <div className="question-card">
-      <p>Name of Author</p>
-      <p>
-        <span>Time</span> | <span>Date</span>
-      </p>
-      <Link to="/">Show</Link>
-    </div>
+    <Card className="m-3">
+      <Card.Body>
+        <Card.Title>{author}</Card.Title>
+        <Card.Text>
+          <span>{formatDate(timestamp)}</span>
+        </Card.Text>
+        <Link
+          to={`/questions/${props.id}`}
+          className="btn btn-primary"
+          role="button">
+          Show Poll
+        </Link>
+      </Card.Body>
+    </Card>
   );
 };
-
-export default QuestionCard;
+const mapStateToProps = ({ questions, authedUser }, { id }) => {
+  const question = questions[id];
+  return {
+    authedUser,
+    question,
+    id,
+  };
+};
+export default connect(mapStateToProps)(QuestionCard);

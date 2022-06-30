@@ -5,7 +5,6 @@
 import { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import { handleInitialData } from "../actions/shared";
-import LoadingBar from "react-redux-loading-bar";
 import LoginPage from "./LoginPage";
 import Navbar from "../containers/Navbar";
 import Dashboard from "./Dashboard";
@@ -22,7 +21,6 @@ const App = (props) => {
 
   return (
     <Fragment>
-      <LoadingBar />
       <main className="main-container">
         {props.authedUser && (
           <header>

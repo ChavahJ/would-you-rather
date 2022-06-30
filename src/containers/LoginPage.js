@@ -10,8 +10,9 @@ import Col from "react-bootstrap/Col";
 
 const LoginPage = (props) => {
   const navigate = useNavigate();
-  const signedIn = localStorage.getItem("authedUser");
-  const [userId, setUserId] = useState(signedIn ? signedIn : "");
+  const [userId, setUserId] = useState(
+    props.authedUser ? props.authedUser : ""
+  );
 
   const handleChange = (event) => {
     setUserId(event.target.value);
@@ -21,7 +22,6 @@ const LoginPage = (props) => {
     event.preventDefault();
     const { dispatch } = props;
     dispatch(setAuthedUser(userId));
-    localStorage.setItem("authedUser", userId);
     navigate("/");
   };
 
