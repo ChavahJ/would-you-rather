@@ -5,6 +5,7 @@
 import { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import { handleInitialData } from "../actions/shared";
+import LoadingBar from "react-redux-loading-bar";
 import LoginPage from "./LoginPage";
 import Navbar from "../containers/Navbar";
 import Dashboard from "./Dashboard";
@@ -13,47 +14,49 @@ import PollCreationPage from "./PollCreationPage";
 import LeaderboardPage from "./LeaderboardPage";
 import NotFoundPage from "./NotFoundPage";
 import { Routes, Route } from "react-router-dom";
-import { setAuthedUser } from "../actions/authedUser";
 
 const App = (props) => {
   useEffect(() => {
-    console.log(props);
     props.dispatch(handleInitialData());
-    const signedIn = localStorage.getItem("authedUser");
-    if (signedIn) {
-      props.dispatch(setAuthedUser(signedIn));
-    }
   }, [props]);
 
   return (
     <Fragment>
+      <LoadingBar />
       <main className="main-container">
         {props.authedUser && (
           <header>
             <Navbar />
           </header>
         )}
-        <Routes>
-          {!props.authedUser && <Route path="/login" element={<LoginPage />} />}
-          {props.authedUser && <Route path="/" exact element={<Dashboard />} />}
-          {props.authedUser && (
-            <Route path="/questions/:question_id" element={<PollPage />} />
-          )}
-          {props.authedUser && (
-            <Route path="/leaderboard" element={<LeaderboardPage />} />
-          )}
-          {props.authedUser && (
-            <Route path="/add" element={<PollCreationPage />} />
-          )}
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+        {props.loading === true ? null : (
+          <Routes>
+            {!props.authedUser && (
+              <Route path="/login" element={<LoginPage />} />
+            )}
+            {props.authedUser && (
+              <Route path="/" exact element={<Dashboard />} />
+            )}
+            {props.authedUser && (
+              <Route path="/questions/:question_id" element={<PollPage />} />
+            )}
+            {props.authedUser && (
+              <Route path="/leaderboard" element={<LeaderboardPage />} />
+            )}
+            {props.authedUser && (
+              <Route path="/add" element={<PollCreationPage />} />
+            )}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        )}
       </main>
     </Fragment>
   );
 };
 
-const mapStateToProps = ({ authedUser }) => ({
+const mapStateToProps = ({ authedUser, questions }) => ({
   authedUser,
+  loading: questions === null,
 });
 
 export default connect(mapStateToProps)(App);
