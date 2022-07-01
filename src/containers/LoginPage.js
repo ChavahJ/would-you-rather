@@ -7,6 +7,8 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Image from "react-bootstrap/Image";
+import employeeImg from "../images/login.png";
 
 const LoginPage = (props) => {
   const navigate = useNavigate();
@@ -28,12 +30,17 @@ const LoginPage = (props) => {
   return (
     <Container className="my-5">
       <Row>
-        <Col>
+        <Col className="text-center">
           <h1>Employee Polls</h1>
+          <Image
+            className="py-4"
+            fluid
+            src={employeeImg}
+            alt="happy smiling people"
+          />
           <h2>Login Here</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formUserSelect">
-              <Form.Label>Users</Form.Label>
               <Form.Select value={userId} onChange={handleChange}>
                 <option key="null" value={-1}>
                   Select a User
