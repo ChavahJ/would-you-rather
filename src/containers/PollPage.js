@@ -12,6 +12,8 @@
 
 import { connect } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { saveQuestionAnswer } from "../actions/questions";
+import { saveUserAnswer } from "../actions/users";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -31,19 +33,21 @@ const PollPage = (props) => {
   const id = props.router.params.question_id;
   const question = props.questions[id];
   const avatar = props.users[question.author].avatarURL;
+  const authedUser = props.authedUser;
   const isAnswered = props.userAnswers.includes(id);
   let whichOption = "";
 
   if (isAnswered) {
-    whichOption = question.optionOne.votes.includes(props.authedUser)
+    whichOption = question.optionOne.votes.includes(authedUser)
       ? "optionOne"
       : "optionTwo";
   }
 
   const handleOnClick = (event) => {
     event.preventDefault();
-    console.log(event.target.value);
-    console.log(props.authedUser);
+    const answer = event.target.value;
+    props.dispatch(saveQuestionAnswer(authedUser, id, answer));
+    props.dispatch(saveUserAnswer(authedUser, id, answer));
   };
 
   const optionOneVotes = question.optionOne.votes.length;
@@ -56,12 +60,12 @@ const PollPage = (props) => {
         <Col>
           <h1>Would You Rather?</h1>
           <p>Poll From User: {question.author} </p>
-          <Image className="img-avatar" fluid src={avatar} />
+          <Image className="img-avatar p-5" fluid src={avatar} />
         </Col>
       </Row>
       <Row>
         <Col>
-          <h2>Option One</h2>
+          <h2>Option One:</h2>
           <p
             className={
               isAnswered && whichOption === "optionOne"
@@ -91,10 +95,8 @@ const PollPage = (props) => {
             </div>
           )}
         </Col>
-      </Row>
-      <Row>
         <Col>
-          <h2>Option Two</h2>
+          <h2>Option Two:</h2>
           <p
             className={
               isAnswered && whichOption === "optionTwo"

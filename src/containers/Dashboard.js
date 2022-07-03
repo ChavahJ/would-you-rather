@@ -20,13 +20,21 @@ const Dashboard = (props) => {
           <h2>New Questions</h2>
         </Col>
       </Row>
-      <QuestionList id="unanswered" questions={props.unansweredQuestions} />
+      <QuestionList
+        key="unanswered"
+        id="unanswered"
+        questions={props.unansweredQuestions}
+      />
       <Row>
         <Col>
           <h2>Answered Questions</h2>
         </Col>
       </Row>
-      <QuestionList id="answered" questions={props.answeredQuestions} />
+      <QuestionList
+        key="answered"
+        id="answered"
+        questions={props.answeredQuestions}
+      />
     </Container>
   );
 };

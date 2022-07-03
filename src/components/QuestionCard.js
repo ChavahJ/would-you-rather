@@ -5,7 +5,6 @@ import { formatDate } from "../utils/api";
 import Card from "react-bootstrap/Card";
 
 const QuestionCard = (props) => {
-  console.log(props);
   const { author, timestamp, id } = props.question;
   return (
     <Card className="m-3">
