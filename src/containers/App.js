@@ -1,7 +1,3 @@
-// The application works correctly regardless of which user is selected
-// Once the user logs in, the home page is shown
-// Whenever the user types something in the address bar, the user is asked to log in before the requested page is shown
-
 import { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import { handleInitialData } from "../actions/shared";
@@ -21,7 +17,7 @@ const App = (props) => {
 
   return (
     <Fragment>
-      <main className="main-container">
+      <main className="main-container" data-testid={"mainContainer"}>
         {props.authedUser && (
           <header>
             <Navbar />

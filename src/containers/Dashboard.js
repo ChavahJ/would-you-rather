@@ -18,13 +18,15 @@ const Dashboard = (props) => {
       <Row>
         <Col>
           <h2>New Questions</h2>
-          <QuestionList questions={props.unansweredQuestions} />
         </Col>
       </Row>
+      <QuestionList id="unanswered" questions={props.unansweredQuestions} />
       <Row>
-        <h2>Answered Questions</h2>
-        <QuestionList questions={props.answeredQuestions} />
+        <Col>
+          <h2>Answered Questions</h2>
+        </Col>
       </Row>
+      <QuestionList id="answered" questions={props.answeredQuestions} />
     </Container>
   );
 };

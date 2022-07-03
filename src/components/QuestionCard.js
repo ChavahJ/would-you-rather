@@ -5,7 +5,8 @@ import { formatDate } from "../utils/api";
 import Card from "react-bootstrap/Card";
 
 const QuestionCard = (props) => {
-  const { author, timestamp } = props.question;
+  console.log(props);
+  const { author, timestamp, id } = props.question;
   return (
     <Card className="m-3">
       <Card.Body>
@@ -13,10 +14,7 @@ const QuestionCard = (props) => {
         <Card.Text>
           <span>{formatDate(timestamp)}</span>
         </Card.Text>
-        <Link
-          to={`/questions/${props.id}`}
-          className="btn btn-primary"
-          role="button">
+        <Link to={`/questions/${id}`} className="btn btn-primary" role="button">
           Show Poll
         </Link>
       </Card.Body>

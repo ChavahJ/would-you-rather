@@ -10,14 +10,134 @@
 // When the user comes back to the home page, the polling question appears in the “Answered” column.
 // The voting mechanism works correctly, and the data on the leaderboard changes appropriately.
 
-const PollPage = () => {
+import { connect } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Image from "react-bootstrap/Image";
+import Button from "react-bootstrap/Button";
+
+const withRouter = (Component) => {
+  const ComponentWithRouterProp = (props) => {
+    let navigate = useNavigate();
+    let params = useParams();
+    return <Component {...props} router={{ navigate, params }} />;
+  };
+  return ComponentWithRouterProp;
+};
+
+const PollPage = (props) => {
+  const id = props.router.params.question_id;
+  const question = props.questions[id];
+  const avatar = props.users[question.author].avatarURL;
+  const isAnswered = props.userAnswers.includes(id);
+  let whichOption = "";
+
+  if (isAnswered) {
+    whichOption = question.optionOne.votes.includes(props.authedUser)
+      ? "optionOne"
+      : "optionTwo";
+  }
+
+  const handleOnClick = (event) => {
+    event.preventDefault();
+    console.log(event.target.value);
+    console.log(props.authedUser);
+  };
+
+  const optionOneVotes = question.optionOne.votes.length;
+  const optionTwoVotes = question.optionTwo.votes.length;
+  const totalVotes = optionOneVotes + optionTwoVotes;
+
   return (
-    <section>
-      <h1>Would You Rather?</h1>
-      <h2>Option One</h2>
-      <h2>Option Two</h2>
-    </section>
+    <Container>
+      <Row>
+        <Col>
+          <h1>Would You Rather?</h1>
+          <p>Poll From User: {question.author} </p>
+          <Image className="img-avatar" fluid src={avatar} />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <h2>Option One</h2>
+          <p
+            className={
+              isAnswered && whichOption === "optionOne"
+                ? "lead bg-warning d-inline-block"
+                : ""
+            }>
+            {isAnswered && whichOption === "optionOne" && (
+              <span>You picked: </span>
+            )}
+            {isAnswered && whichOption !== "optionOne" && (
+              <span>You didn't pick: </span>
+            )}
+            {question.optionOne.text}
+          </p>
+          {!isAnswered && (
+            <Button onClick={handleOnClick} value="optionOne">
+              I Like This Option
+            </Button>
+          )}
+          {isAnswered && (
+            <div>
+              <p>Number of votes for this option:&nbsp;{optionOneVotes}</p>
+              <p>
+                Percentage of all votes:&nbsp;
+                {Math.round((optionOneVotes / totalVotes) * 100)}%
+              </p>
+            </div>
+          )}
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <h2>Option Two</h2>
+          <p
+            className={
+              isAnswered && whichOption === "optionTwo"
+                ? "lead bg-warning d-inline-block"
+                : ""
+            }>
+            {isAnswered && whichOption === "optionTwo" && (
+              <span>You picked: </span>
+            )}
+            {isAnswered && whichOption !== "optionTwo" && (
+              <span>You didn't pick: </span>
+            )}
+            {question.optionTwo.text}
+          </p>
+          {!isAnswered && (
+            <Button onClick={handleOnClick} value="optionTwo">
+              This is better!
+            </Button>
+          )}
+          {isAnswered && (
+            <div>
+              <p>Number of votes for this option:&nbsp;{optionTwoVotes}</p>
+              <p>
+                Percentage of all votes:&nbsp;
+                {Math.round((optionTwoVotes / totalVotes) * 100)}%
+              </p>
+            </div>
+          )}
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
-export default PollPage;
+const mapStateToProps = ({ questions, authedUser, users }, props) => {
+  const userAnswers = Object.keys(users[authedUser].answers);
+
+  return {
+    props,
+    authedUser,
+    questions,
+    users,
+    userAnswers,
+  };
+};
+export default withRouter(connect(mapStateToProps)(PollPage));

@@ -11,14 +11,13 @@ const UserIndicator = (props) => {
     event.preventDefault();
     const { dispatch } = props;
     dispatch(removeAuthedUser(""));
-    localStorage.removeItem("authedUser");
     navigate("/login");
   };
 
   return (
     <Navbar.Collapse className="justify-content-end">
       <Navbar.Text>Signed in as: {props.authedUser}</Navbar.Text>
-      <Button className="ms-4" onClick={handleLogOut}>
+      <Button className="ms-4" onClick={handleLogOut} data-testid={"logOut"}>
         Log Out
       </Button>
     </Navbar.Collapse>
