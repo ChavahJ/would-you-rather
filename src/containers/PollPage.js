@@ -1,17 +1,7 @@
-// The details of the poll are available at questions/:question_id, for Logged In User only
-// Unanswered polls: avatar of author and two options shown
-// Answered polls: text of chosen option, number of votes, percentage of votes
-// The option selected by the logged in user should be clearly marked
-// The application asks the user to sign in before being able to access the poll
 // The application asks the user to sign in and shows a 404 page if that poll does not exist.
 
-// Upon voting in a poll, all of the information of the answered poll is displayed.
-// The user’s response is recorded and is clearly visible on the poll details page.
-// When the user comes back to the home page, the polling question appears in the “Answered” column.
-// The voting mechanism works correctly, and the data on the leaderboard changes appropriately.
-
 import { connect } from "react-redux";
-import { handleSaveQuestionAnswer } from "../actions/questions";
+import { addQuestionAnswer } from "../actions/questions";
 import { saveUserAnswer } from "../actions/users";
 import { withRouter } from "../utils/helpers";
 import Container from "react-bootstrap/Container";
@@ -21,11 +11,11 @@ import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 
 const PollPage = (props) => {
-  const id = props.router.params.question_id;
-  const question = props.questions[id];
+  const qid = props.router.params.question_id;
+  const question = props.questions[qid];
   const avatar = props.users[question.author].avatarURL;
   const authedUser = props.authedUser;
-  const isAnswered = props.userAnswers.includes(id);
+  const isAnswered = props.userAnswers.includes(qid);
   let whichOption = "";
 
   if (isAnswered) {
@@ -37,8 +27,8 @@ const PollPage = (props) => {
   const handleOnClick = (event) => {
     event.preventDefault();
     const answer = event.target.value;
-    props.dispatch(handleSaveQuestionAnswer(authedUser, id, answer));
-    props.dispatch(saveUserAnswer(authedUser, id, answer));
+    props.dispatch(addQuestionAnswer(authedUser, qid, answer));
+    props.dispatch(saveUserAnswer(authedUser, qid, answer));
   };
 
   const optionOneVotes = question.optionOne.votes.length;

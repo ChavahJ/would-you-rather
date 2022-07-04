@@ -1,4 +1,3 @@
-// The user can alternate between viewing answered and unanswered polls.
 import { connect } from "react-redux";
 import { useState } from "react";
 import QuestionList from "../components/QuestionList";
@@ -8,6 +7,16 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
 const Dashboard = (props) => {
+  const [dashboardView, setDashboardView] = useState("all");
+  const showUnanswered =
+    dashboardView === "all" || dashboardView === "unanswered";
+  const showAnswered = dashboardView === "all" || dashboardView === "answered";
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    setDashboardView(event.target.value);
+  };
+
   return (
     <Container className="dashboard">
       <Row>
@@ -17,41 +26,43 @@ const Dashboard = (props) => {
       </Row>
       <Row>
         <Col>
-          <Button className="m-3" value="unanswered">
+          <Button className="m-3" value="unanswered" onClick={handleClick}>
             Show Unanswered Questions Only
           </Button>
-          <Button className="m-3" value="answered">
+          <Button className="m-3" value="answered" onClick={handleClick}>
             Show Answered Questions Only
           </Button>
-          <Button className="m-3" value="all">
+          <Button className="m-3" value="all" onClick={handleClick}>
             Show All Questions
           </Button>
         </Col>
       </Row>
+      {showUnanswered && (
+        <Row>
+          <Col xs={12}>
+            <h2>New Questions</h2>
+          </Col>
 
-      <Row>
-        <Col xs={12}>
-          <h2>New Questions</h2>
-        </Col>
+          <QuestionList
+            key={1974}
+            id="unanswered"
+            questions={props.unansweredQuestions}
+          />
+        </Row>
+      )}
+      {showAnswered && (
+        <Row>
+          <Col xs={12}>
+            <h2>Answered Questions</h2>
+          </Col>
 
-        <QuestionList
-          key={"unanswered"}
-          id="unanswered"
-          questions={props.unansweredQuestions}
-        />
-      </Row>
-
-      <Row>
-        <Col>
-          <h2>Answered Questions</h2>
-        </Col>
-
-        <QuestionList
-          key={"answered"}
-          id="answered"
-          questions={props.answeredQuestions}
-        />
-      </Row>
+          <QuestionList
+            key={1975}
+            id="answered"
+            questions={props.answeredQuestions}
+          />
+        </Row>
+      )}
     </Container>
   );
 };

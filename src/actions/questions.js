@@ -1,8 +1,8 @@
-import { saveQuestionAnswer, saveQuestion } from "../utils/api";
+import { saveQuestion } from "../utils/api";
 
 export const RECEIVE_QUESTIONS = "RECEIVE_QUESTIONS";
-export const SAVE_QUESTION_ANSWER = "SAVE_QUESTION_ANSWER";
 export const ADD_QUESTION = "ADD_QUESTION";
+export const SAVE_QUESTION_ANSWER = "SAVE_QUESTION_ANSWER";
 
 export function receiveQuestions(questions) {
   return {
@@ -11,13 +11,14 @@ export function receiveQuestions(questions) {
   };
 }
 
-export function handleSaveQuestionAnswer(authedUser, qid, answer) {
-  return async function saveQuestionAnswerThunk(dispatch) {
-    const response = await saveQuestionAnswer(authedUser, qid, answer);
-    dispatch({ type: SAVE_QUESTION_ANSWER, payload: response });
+export function addQuestionAnswer(authedUser, qid, answer) {
+  return {
+    type: SAVE_QUESTION_ANSWER,
+    authedUser,
+    qid,
+    answer,
   };
 }
-
 export function handleSaveQuestion(question) {
   return async function saveQuestionThunk(dispatch) {
     const response = await saveQuestion(question);
