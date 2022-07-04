@@ -1,9 +1,6 @@
-// The form is available at/add.
-// The application shows the text “Would You Rather” and has a form for creating two options.
-// Upon submitting the form, a new poll is created and the user is taken to the home page.
-// The new polling question appears in the correct category on the home page.
 import { useState } from "react";
 import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { handleSaveQuestion } from "../actions/questions";
 import { addUserQuestion } from "../actions/users";
 import Container from "react-bootstrap/Container";
@@ -15,6 +12,8 @@ import Button from "react-bootstrap/Button";
 const PollCreationPage = (props) => {
   const [optionOne, setOptionOne] = useState("");
   const [optionTwo, setOptionTwo] = useState("");
+
+  let navigate = useNavigate();
 
   const handleChangeOne = (event) => {
     const textOne = event.target.value;
@@ -29,12 +28,14 @@ const PollCreationPage = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     let successCallback = (result) => {
-      console.log(result);
       props.dispatch(addUserQuestion(result.author, result.id));
+      navigate("/");
     };
+
     let failureCallback = () => {
       console.log("something went wrong");
     };
+
     const question = {
       optionOneText: optionOne,
       optionTwoText: optionTwo,

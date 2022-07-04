@@ -1,11 +1,11 @@
-// The answered and unanswered polls are both available at the root
 // The user can alternate between viewing answered and unanswered polls.
-// The unanswered questions are shown by default.
 import { connect } from "react-redux";
+import { useState } from "react";
 import QuestionList from "../components/QuestionList";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
 
 const Dashboard = (props) => {
   return (
@@ -17,24 +17,41 @@ const Dashboard = (props) => {
       </Row>
       <Row>
         <Col>
-          <h2>New Questions</h2>
+          <Button className="m-3" value="unanswered">
+            Show Unanswered Questions Only
+          </Button>
+          <Button className="m-3" value="answered">
+            Show Answered Questions Only
+          </Button>
+          <Button className="m-3" value="all">
+            Show All Questions
+          </Button>
         </Col>
       </Row>
-      <QuestionList
-        key="unanswered"
-        id="unanswered"
-        questions={props.unansweredQuestions}
-      />
+
+      <Row>
+        <Col xs={12}>
+          <h2>New Questions</h2>
+        </Col>
+
+        <QuestionList
+          key={"unanswered"}
+          id="unanswered"
+          questions={props.unansweredQuestions}
+        />
+      </Row>
+
       <Row>
         <Col>
           <h2>Answered Questions</h2>
         </Col>
+
+        <QuestionList
+          key={"answered"}
+          id="answered"
+          questions={props.answeredQuestions}
+        />
       </Row>
-      <QuestionList
-        key="answered"
-        id="answered"
-        questions={props.answeredQuestions}
-      />
     </Container>
   );
 };
