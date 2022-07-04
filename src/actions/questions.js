@@ -20,10 +20,10 @@ export function saveQuestionAnswer(authedUser, qid, answer) {
   };
 }
 
-export async function handleSaveQuestion(question) {
+export function handleSaveQuestion(question) {
   return async function saveQuestionThunk(dispatch) {
     const newQuestion = { question };
-    const response = await saveQuestion(newQuestion);
-    dispatch({ type: ADD_QUESTION, payload: response.question });
+    const response = await saveQuestion(question);
+    dispatch({ type: ADD_QUESTION, payload: response });
   };
 }

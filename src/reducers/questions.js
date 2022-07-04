@@ -30,7 +30,17 @@ export function questions(state = {}, action) {
         },
       };
     case ADD_QUESTION: {
-      return [...state, action.payload];
+      const { id, author, optionOne, optionTwo, timestamp } = action.payload;
+      return {
+        ...state,
+        [id]: {
+          id,
+          author,
+          optionOne,
+          optionTwo,
+          timestamp,
+        },
+      };
     }
     default:
       return state;
