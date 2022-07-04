@@ -7,7 +7,7 @@ import Card from "react-bootstrap/Card";
 const QuestionCard = (props) => {
   const { author, timestamp, id } = props.question;
   return (
-    <Card className="m-3">
+    <Card key={id} id={id} className="m-3">
       <Card.Body>
         <Card.Title>{author}</Card.Title>
         <Card.Text>

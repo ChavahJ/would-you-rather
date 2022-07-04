@@ -23,7 +23,8 @@ const LeaderBoardPage = (props) => {
               {Object.entries(props.users).map(([key, value]) => (
                 <tr key={key}>
                   <td>
-                    <Image className="img-avatar" fluid src={value.avatarURL} />{" "}
+                    <Image className="img-avatar" fluid src={value.avatarURL} />
+                    &nbsp;
                     {value.name}
                   </td>
                   <td>{Object.keys(value.answers).length}</td>

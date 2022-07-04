@@ -22,8 +22,8 @@ export function saveQuestionAnswer(authedUser, qid, answer) {
 
 export function handleSaveQuestion(question) {
   return async function saveQuestionThunk(dispatch) {
-    const newQuestion = { question };
     const response = await saveQuestion(question);
     dispatch({ type: ADD_QUESTION, payload: response });
+    return response;
   };
 }

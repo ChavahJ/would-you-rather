@@ -5,6 +5,7 @@
 import { useState } from "react";
 import { connect } from "react-redux";
 import { handleSaveQuestion } from "../actions/questions";
+import { addUserQuestion } from "../actions/users";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -27,12 +28,23 @@ const PollCreationPage = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    let successCallback = (result) => {
+      console.log(result);
+      props.dispatch(addUserQuestion(result.author, result.id));
+    };
+    let failureCallback = () => {
+      console.log("something went wrong");
+    };
     const question = {
       optionOneText: optionOne,
       optionTwoText: optionTwo,
       author: props.authedUser,
     };
-    props.dispatch(handleSaveQuestion(question));
+
+    props
+      .dispatch(handleSaveQuestion(question))
+      .then((result) => successCallback(result))
+      .catch(failureCallback);
   };
 
   return (

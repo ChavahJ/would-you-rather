@@ -24,7 +24,7 @@ const NotFoundPage = (props) => {
         {doesPageExist && (
           <Col>
             <h1>Oops! You're logged out.</h1>
-            <p>Please log in to see this page</p>
+            <p>Please log in to see this poll.</p>
           </Col>
         )}
       </Row>
