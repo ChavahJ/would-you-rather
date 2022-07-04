@@ -7,7 +7,7 @@
 import {
   RECEIVE_QUESTIONS,
   SAVE_QUESTION_ANSWER,
-  SAVE_QUESTION,
+  ADD_QUESTION,
 } from "../actions/questions";
 
 export function questions(state = {}, action) {
@@ -29,12 +29,9 @@ export function questions(state = {}, action) {
           },
         },
       };
-    case SAVE_QUESTION:
-      const { formattedQuestion } = action;
-      return {
-        ...state,
-        formattedQuestion,
-      };
+    case ADD_QUESTION: {
+      return [...state, action.payload];
+    }
     default:
       return state;
   }
