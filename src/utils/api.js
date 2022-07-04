@@ -21,9 +21,3 @@ export function saveQuestion(question) {
 export function saveQuestionAnswer(object) {
   return _saveQuestionAnswer(object);
 }
-
-export function formatDate(timestamp) {
-  const d = new Date(timestamp);
-  const time = d.toLocaleTimeString("en-US");
-  return time.substr(0, 5) + time.slice(-2) + " | " + d.toLocaleDateString();
-}

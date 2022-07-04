@@ -1,7 +1,7 @@
 // A polling question links to details of that poll.
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { formatDate } from "../utils/api";
+import { formatDate } from "../utils/helpers";
 import Card from "react-bootstrap/Card";
 
 const QuestionCard = (props) => {

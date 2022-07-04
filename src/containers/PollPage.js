@@ -11,23 +11,14 @@
 // The voting mechanism works correctly, and the data on the leaderboard changes appropriately.
 
 import { connect } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
 import { saveQuestionAnswer } from "../actions/questions";
 import { saveUserAnswer } from "../actions/users";
+import { withRouter } from "../utils/helpers";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
-
-const withRouter = (Component) => {
-  const ComponentWithRouterProp = (props) => {
-    let navigate = useNavigate();
-    let params = useParams();
-    return <Component {...props} router={{ navigate, params }} />;
-  };
-  return ComponentWithRouterProp;
-};
 
 const PollPage = (props) => {
   const id = props.router.params.question_id;
