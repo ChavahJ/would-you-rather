@@ -11,7 +11,7 @@
 // The voting mechanism works correctly, and the data on the leaderboard changes appropriately.
 
 import { connect } from "react-redux";
-import { saveQuestionAnswer } from "../actions/questions";
+import { handleSaveQuestionAnswer } from "../actions/questions";
 import { saveUserAnswer } from "../actions/users";
 import { withRouter } from "../utils/helpers";
 import Container from "react-bootstrap/Container";
@@ -37,7 +37,7 @@ const PollPage = (props) => {
   const handleOnClick = (event) => {
     event.preventDefault();
     const answer = event.target.value;
-    props.dispatch(saveQuestionAnswer(authedUser, id, answer));
+    props.dispatch(handleSaveQuestionAnswer(authedUser, id, answer));
     props.dispatch(saveUserAnswer(authedUser, id, answer));
   };
 
