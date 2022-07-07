@@ -27,7 +27,6 @@ const PollPage = (props) => {
       : "optionTwo";
   }
 
-  console.log(isAnswered);
   const avatar = users[questionAuthor].avatarURL;
 
   const handleOnClick = (event) => {

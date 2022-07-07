@@ -11,8 +11,8 @@ const QuestionList = (props) => {
         .map((question) => {
           let id = question.id;
           return (
-            <Col xs={1} md={6}>
-              <QuestionCard key={id} id={id} />
+            <Col key={id} xs={1} md={6}>
+              <QuestionCard id={id} />
             </Col>
           );
         })}

@@ -18,7 +18,10 @@ const NotFoundPage = (props) => {
         {!doesPageExist && (
           <Col>
             <h1>404 Error</h1>
-            <p>Oops! We can't find that page.</p>
+            <p>
+              Oops! The page isn't loading. It might not exist, or you might
+              need to log in.
+            </p>
           </Col>
         )}
         {doesPageExist && (

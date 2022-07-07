@@ -43,11 +43,7 @@ const Dashboard = (props) => {
             <h2>New Questions</h2>
           </Col>
 
-          <QuestionList
-            key={1974}
-            id="unanswered"
-            questions={props.unansweredQuestions}
-          />
+          <QuestionList id="unanswered" questions={props.unansweredQuestions} />
         </Row>
       )}
       {showAnswered && (
@@ -56,11 +52,7 @@ const Dashboard = (props) => {
             <h2>Answered Questions</h2>
           </Col>
 
-          <QuestionList
-            key={1975}
-            id="answered"
-            questions={props.answeredQuestions}
-          />
+          <QuestionList id="answered" questions={props.answeredQuestions} />
         </Row>
       )}
     </Container>
