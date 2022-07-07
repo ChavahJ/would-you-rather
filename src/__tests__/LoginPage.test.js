@@ -1,33 +1,50 @@
 import React from "react";
-import { fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import { screen, fireEvent } from "@testing-library/react";
 import { renderWithProviders } from "../utils/test-utils";
+import { MemoryRouter } from "react-router-dom";
 import LoginPage from "../containers/LoginPage";
 
-it("will have a form, select, and submit button", () => {
-  const component = renderWithProviders(<LoginPage />);
+describe("LoginPage", () => {
+  it("will have a form, select, and submit button", () => {
+    const component = renderWithProviders(
+      <MemoryRouter>
+        <LoginPage />
+      </MemoryRouter>
+    );
 
-  const form = component.getByTestId("login-form");
+    const form = component.getByTestId("login-form");
 
-  expect(form).toBeInTheDocument();
+    expect(form).toBeInTheDocument();
 
-  const select = component.getByTestId("login-select");
-  expect(select).toBeInTheDocument();
+    const select = component.getByTestId("login-select");
+    expect(select).toBeInTheDocument();
 
-  const submitButton = component.getByTestId("login-button");
-  expect(submitButton).toBeInTheDocument();
-});
-
-it("will accept a value and fire a click", () => {
-  const component = renderWithProviders(<LoginPage />);
-  const select = component.getByTestId("login-select");
-  fireEvent.change(select, {
-    target: { value: "zoshikanlu" },
+    const submitButton = component.getByTestId("login-button");
+    expect(submitButton).toBeInTheDocument();
   });
 
-  const submitButton = component.getByTestId("login-button");
-  fireEvent.click(submitButton);
+  it("will change input value", async () => {
+    renderWithProviders(
+      <MemoryRouter>
+        <LoginPage />
+      </MemoryRouter>
+    );
+    const select = screen.getByTestId("login-select");
+    const optionMike = screen.getByRole("option", { value: "mtsamis" });
+
+    await fireEvent.change(select, { target: { value: "mtsamis" } });
+    expect(optionMike.selected).toBe(true);
+  });
+
+  it("when submit button is click user navigates away from the page", async () => {
+    const component = renderWithProviders(
+      <MemoryRouter>
+        <LoginPage />
+      </MemoryRouter>
+    );
+    const submitButton = component.getByTestId("login-button");
+    await fireEvent.click(submitButton);
+    expect(screen.getByTestId("login-form")).not.toBeInTheDocument;
+  });
 });
-
-// it("will redirect after submit", () => {
-
-// })

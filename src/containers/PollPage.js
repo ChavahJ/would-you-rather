@@ -11,11 +11,14 @@ import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 
 const PollPage = (props) => {
+  const { questions, users, authedUser } = props;
   const qid = props.router.params.question_id;
-  const question = props.questions[qid];
-  const avatar = props.users[question.author].avatarURL;
-  const authedUser = props.authedUser;
-  const isAnswered = props.userAnswers.includes(qid);
+  const question = questions[qid];
+  const questionAuthor = question.author;
+  const userAnswers = Object.keys(users[authedUser].answers);
+
+  const isAnswered = userAnswers.includes(qid);
+
   let whichOption = "";
 
   if (isAnswered) {
@@ -23,6 +26,9 @@ const PollPage = (props) => {
       ? "optionOne"
       : "optionTwo";
   }
+
+  console.log(isAnswered);
+  const avatar = users[questionAuthor].avatarURL;
 
   const handleOnClick = (event) => {
     event.preventDefault();
@@ -112,15 +118,12 @@ const PollPage = (props) => {
   );
 };
 
-const mapStateToProps = ({ questions, authedUser, users }, props) => {
-  const userAnswers = Object.keys(users[authedUser].answers);
-
+const mapStateToProps = ({ questions, authedUser, users }, { id }) => {
   return {
-    props,
+    id,
     authedUser,
     questions,
     users,
-    userAnswers,
   };
 };
 export default withRouter(connect(mapStateToProps)(PollPage));

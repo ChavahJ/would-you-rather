@@ -16,7 +16,9 @@ const UserIndicator = (props) => {
 
   return (
     <Navbar.Collapse className="justify-content-end">
-      <Navbar.Text>Signed in as: {props.authedUser}</Navbar.Text>
+      <Navbar.Text data-testid="navText">
+        Signed in as: {props.authedUser}
+      </Navbar.Text>
       <Button className="ms-4" onClick={handleLogOut} data-testid={"logOut"}>
         Log Out
       </Button>

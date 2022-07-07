@@ -12,9 +12,7 @@ import employeeImg from "../images/login.png";
 
 const LoginPage = (props) => {
   const navigate = useNavigate();
-  const [userId, setUserId] = useState(
-    props.authedUser ? props.authedUser : ""
-  );
+  const [userId, setUserId] = useState("");
 
   const handleChange = (event) => {
     setUserId(event.target.value);

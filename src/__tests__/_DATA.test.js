@@ -14,8 +14,6 @@ describe("saveQuestion", () => {
     const response = await _saveQuestion(questionObject);
 
     const expectedResponse = {
-      id: response.id,
-      timestamp: response.timestamp,
       author: author,
       optionOne: {
         votes: [],
@@ -33,5 +31,27 @@ describe("saveQuestion", () => {
   it("will fail and reject to value", async () => {
     const value = "Please provide optionOneText, optionTwoText, and author";
     await expect(_saveQuestion({})).rejects.toMatch(value);
+  });
+});
+
+describe("saveQuestionAnswer", () => {
+  it("will save a new answer to an existing question", async () => {
+    const authedUser = "zoshikanlu";
+    const qid = "8xf0y6ziyjabvozdd253nd";
+    const answer = "optionOne";
+
+    const response = await _saveQuestionAnswer({ authedUser, qid, answer });
+
+    expect(response).resolves.toBeTruthy;
+  });
+
+  it("will fail and reject to value", async () => {
+    const authedUser = "";
+    const qid = "";
+    const answer = "";
+    const value = "Please provide authedUser, qid, and answer";
+    await expect(_saveQuestionAnswer(authedUser, qid, answer)).rejects.toMatch(
+      value
+    );
   });
 });

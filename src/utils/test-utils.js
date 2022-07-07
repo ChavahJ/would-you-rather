@@ -1,7 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { MemoryRouter } from "react-router-dom";
 import { setupStore } from "../store";
 
 export function renderWithProviders(
@@ -14,11 +13,7 @@ export function renderWithProviders(
   } = {}
 ) {
   function Wrapper({ children }) {
-    return (
-      <MemoryRouter>
-        <Provider store={store}>{children}</Provider>
-      </MemoryRouter>
-    );
+    return <Provider store={store}>{children}</Provider>;
   }
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }
