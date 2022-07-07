@@ -40,8 +40,14 @@ const LoginPage = (props) => {
           />
           <h2>Login Here</h2>
           <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formUserSelect">
-              <Form.Select value={userId} onChange={handleChange}>
+            <Form.Group
+              className="mb-3"
+              controlId="formUserSelect"
+              data-testid="login-form">
+              <Form.Select
+                value={userId}
+                onChange={handleChange}
+                data-testid="login-select">
                 <option key="null" value={-1}>
                   Select a User
                 </option>
@@ -52,7 +58,7 @@ const LoginPage = (props) => {
                 ))}
               </Form.Select>
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" data-testid="login-button">
               Submit
             </Button>
           </Form>

@@ -1,20 +1,24 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import { Provider } from "react-redux";
-
-import { handleInitialData } from "../actions/shared";
+import { MemoryRouter } from "react-router-dom";
+import { setupStore } from "../store";
 
 export function renderWithProviders(
   ui,
   {
     preloadedState = {},
     // Automatically create a store instance if no store was passed in
-    store = handleInitialData(preloadedState),
+    store = setupStore(preloadedState),
     ...renderOptions
   } = {}
 ) {
   function Wrapper({ children }) {
-    return <Provider store={store}>{children}</Provider>;
+    return (
+      <MemoryRouter>
+        <Provider store={store}>{children}</Provider>
+      </MemoryRouter>
+    );
   }
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }
