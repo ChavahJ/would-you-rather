@@ -1,56 +1,45 @@
 import { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import { handleInitialData } from "../actions/shared";
-import LoginPage from "./LoginPage";
+import LoginModal from "../components/LoginModal";
 import Navbar from "../containers/Navbar";
 import Dashboard from "./Dashboard";
 import PollPage from "./PollPage";
 import PollCreationPage from "./PollCreationPage";
 import LeaderboardPage from "./LeaderboardPage";
 import NotFoundPage from "./NotFoundPage";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 const App = (props) => {
   useEffect(() => {
     props.dispatch(handleInitialData());
   }, [props]);
-
+  const { modalStore } = props;
   return (
     <Fragment>
-      <main className="main-container" data-testid={"mainContainer"}>
-        {props.authedUser && (
+      {modalStore === true && <LoginModal show={true} />}
+      {modalStore === false && <LoginModal show={false} /> && (
+        <main className="main-container" data-testid={"mainContainer"}>
           <header>
             <Navbar />
           </header>
-        )}
-        {props.loading === true ? null : (
           <Routes>
-            {!props.authedUser && (
-              <Route path="/login" element={<LoginPage />} />
-            )}
-            {props.authedUser && (
-              <Route path="/" exact element={<Dashboard />} />
-            )}
-            {props.authedUser && (
-              <Route path="/questions/:question_id" element={<PollPage />} />
-            )}
-            {props.authedUser && (
-              <Route path="/leaderboard" element={<LeaderboardPage />} />
-            )}
-            {props.authedUser && (
-              <Route path="/add" element={<PollCreationPage />} />
-            )}
-            <Route path="*" element={<NotFoundPage />} />
+            <Route exact path="/" element={<Dashboard />} />
+            <Route path="/questions/:question_id" element={<PollPage />} />
+            <Route path="/leaderboard" element={<LeaderboardPage />} />
+            <Route path="/add" element={<PollCreationPage />} />
+            <Route path="/404" element={<NotFoundPage />} />
+            <Route path="*" element={<Navigate replace to="/404" />} />
           </Routes>
-        )}
-      </main>
+        </main>
+      )}
     </Fragment>
   );
 };
 
-const mapStateToProps = ({ authedUser, questions }) => ({
+const mapStateToProps = ({ authedUser, modalStore }) => ({
   authedUser,
-  loading: questions === null,
+  modalStore,
 });
 
 export default connect(mapStateToProps)(App);

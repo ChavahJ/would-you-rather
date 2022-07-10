@@ -1,17 +1,15 @@
 import { connect } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { removeAuthedUser } from "../actions/authedUser";
+import { showModal } from "../actions/modal";
 import Button from "react-bootstrap/Button";
 import Navbar from "react-bootstrap/Navbar";
 
 const UserIndicator = (props) => {
-  const navigate = useNavigate();
-
   const handleLogOut = (event) => {
     event.preventDefault();
     const { dispatch } = props;
     dispatch(removeAuthedUser(""));
-    navigate("/login");
+    dispatch(showModal());
   };
 
   return (
@@ -25,8 +23,9 @@ const UserIndicator = (props) => {
     </Navbar.Collapse>
   );
 };
-const mapStateToProps = ({ authedUser, users }) => ({
+const mapStateToProps = ({ authedUser, users, modalStore }) => ({
   authedUser,
   users,
+  modalStore,
 });
 export default connect(mapStateToProps)(UserIndicator);

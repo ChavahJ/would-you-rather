@@ -1,128 +1,108 @@
 // The application asks the user to sign in and shows a 404 page if that poll does not exist.
-
 import { connect } from "react-redux";
+import { useEffect } from "react";
 import { addQuestionAnswer } from "../actions/questions";
 import { saveUserAnswer } from "../actions/users";
-import { withRouter } from "../utils/helpers";
+import AuthorInfo from "../components/AuthorInfo";
+import OptionUnanswered from "../components/OptionUnanswered";
+import OptionAnswered from "../components/OptionAnswered";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Image from "react-bootstrap/Image";
-import Button from "react-bootstrap/Button";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+
+const withRouter = (Component) => {
+  const ComponentWithRouterProp = (props) => {
+    let location = useLocation();
+    let navigate = useNavigate();
+    let params = useParams();
+    return <Component {...props} router={{ location, navigate, params }} />;
+  };
+  return ComponentWithRouterProp;
+};
 
 const PollPage = (props) => {
-  const { questions, users, authedUser } = props;
-  const qid = props.router.params.question_id;
-  const question = questions[qid];
-  const questionAuthor = question.author;
+  const { questions, users, authedUser, params, navigate } = props;
+
+  const qid = params.question_id;
+
+  const questionExists = qid in questions;
+  console.log(questionExists);
+
+  useEffect(() => {
+    console.log("useEffect triggered");
+    if (!questionExists) {
+      navigate("/404", { replace: true });
+    }
+  }, [questionExists, navigate]);
+
+  let question = questions[qid];
+
+  const options = [
+    { option: "optionOne", title: "Option One" },
+    { option: "optionTwo", title: "Option Two" },
+  ];
+
   const userAnswers = Object.keys(users[authedUser].answers);
-
   const isAnswered = userAnswers.includes(qid);
-
   let whichOption = "";
-
   if (isAnswered) {
     whichOption = question.optionOne.votes.includes(authedUser)
       ? "optionOne"
       : "optionTwo";
   }
 
-  const avatar = users[questionAuthor].avatarURL;
-
-  const handleOnClick = (event) => {
-    event.preventDefault();
-    const answer = event.target.value;
+  const handleOnClick = (answer) => {
     props.dispatch(addQuestionAnswer(authedUser, qid, answer));
     props.dispatch(saveUserAnswer(authedUser, qid, answer));
   };
-
-  const optionOneVotes = question.optionOne.votes.length;
-  const optionTwoVotes = question.optionTwo.votes.length;
-  const totalVotes = optionOneVotes + optionTwoVotes;
 
   return (
     <Container>
       <Row>
         <Col>
           <h1>Would You Rather?</h1>
-          <p>Poll From User: {question.author} </p>
-          <Image className="img-avatar p-5" fluid src={avatar} />
         </Col>
       </Row>
-      <Row>
-        <Col>
-          <h2>Option One:</h2>
-          <p
-            className={
-              isAnswered && whichOption === "optionOne"
-                ? "lead bg-warning d-inline-block"
-                : ""
-            }>
-            {isAnswered && whichOption === "optionOne" && (
-              <span>You picked: </span>
-            )}
-            {isAnswered && whichOption !== "optionOne" && (
-              <span>You didn't pick: </span>
-            )}
-            {question.optionOne.text}
-          </p>
-          {!isAnswered && (
-            <Button onClick={handleOnClick} value="optionOne">
-              I Like This Option
-            </Button>
-          )}
-          {isAnswered && (
-            <div>
-              <p>Number of votes for this option:&nbsp;{optionOneVotes}</p>
-              <p>
-                Percentage of all votes:&nbsp;
-                {Math.round((optionOneVotes / totalVotes) * 100)}%
-              </p>
-            </div>
-          )}
-        </Col>
-        <Col>
-          <h2>Option Two:</h2>
-          <p
-            className={
-              isAnswered && whichOption === "optionTwo"
-                ? "lead bg-warning d-inline-block"
-                : ""
-            }>
-            {isAnswered && whichOption === "optionTwo" && (
-              <span>You picked: </span>
-            )}
-            {isAnswered && whichOption !== "optionTwo" && (
-              <span>You didn't pick: </span>
-            )}
-            {question.optionTwo.text}
-          </p>
-          {!isAnswered && (
-            <Button onClick={handleOnClick} value="optionTwo">
-              This is better!
-            </Button>
-          )}
-          {isAnswered && (
-            <div>
-              <p>Number of votes for this option:&nbsp;{optionTwoVotes}</p>
-              <p>
-                Percentage of all votes:&nbsp;
-                {Math.round((optionTwoVotes / totalVotes) * 100)}%
-              </p>
-            </div>
-          )}
-        </Col>
-      </Row>
+      {questionExists && <AuthorInfo question={question} />}
+      {questionExists &&
+        !isAnswered &&
+        options.map((option) => {
+          return (
+            <OptionUnanswered
+              key={option.option}
+              option={option.option}
+              title={option.title}
+              question={question}
+              handleOnClick={handleOnClick}
+            />
+          );
+        })}
+      {questionExists &&
+        isAnswered &&
+        options.map((option) => {
+          return (
+            <OptionAnswered
+              key={option.option}
+              option={option.option}
+              title={option.title}
+              question={question}
+              whichOption={whichOption}
+            />
+          );
+        })}
     </Container>
   );
 };
 
-const mapStateToProps = ({ questions, authedUser, users }, { id }) => {
+const mapStateToProps = ({ questions, authedUser, users }, props) => {
+  const { router } = props;
   return {
-    id,
     authedUser,
     questions,
     users,
+    params: router.params,
+    navigate: router.navigate,
   };
 };
 export default withRouter(connect(mapStateToProps)(PollPage));

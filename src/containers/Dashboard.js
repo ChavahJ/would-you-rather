@@ -7,7 +7,16 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
 const Dashboard = (props) => {
+  const { questions, users, authedUser } = props;
+  const currentUser = users[authedUser];
   const [dashboardView, setDashboardView] = useState("all");
+  const unansweredQuestions = Object.values(questions).filter(
+    (question) => !Object.keys(currentUser.answers).includes(question.id)
+  );
+  const answeredQuestions = Object.values(questions).filter((question) =>
+    Object.keys(currentUser.answers).includes(question.id)
+  );
+
   const showUnanswered =
     dashboardView === "all" || dashboardView === "unanswered";
   const showAnswered = dashboardView === "all" || dashboardView === "answered";
@@ -43,7 +52,7 @@ const Dashboard = (props) => {
             <h2>New Questions</h2>
           </Col>
 
-          <QuestionList id="unanswered" questions={props.unansweredQuestions} />
+          <QuestionList id="unanswered" questions={unansweredQuestions} />
         </Row>
       )}
       {showAnswered && (
@@ -52,7 +61,7 @@ const Dashboard = (props) => {
             <h2>Answered Questions</h2>
           </Col>
 
-          <QuestionList id="answered" questions={props.answeredQuestions} />
+          <QuestionList id="answered" questions={answeredQuestions} />
         </Row>
       )}
     </Container>
@@ -60,18 +69,10 @@ const Dashboard = (props) => {
 };
 
 const mapStateToProps = ({ questions, users, authedUser }) => {
-  const currentUser = users[authedUser];
-  const unansweredQuestions = Object.values(questions).filter(
-    (question) => !Object.keys(currentUser.answers).includes(question.id)
-  );
-  const answeredQuestions = Object.values(questions).filter((question) =>
-    Object.keys(currentUser.answers).includes(question.id)
-  );
-
   return {
-    currentUser,
-    unansweredQuestions,
-    answeredQuestions,
+    questions,
+    users,
+    authedUser,
   };
 };
 
