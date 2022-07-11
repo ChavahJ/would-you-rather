@@ -28,9 +28,9 @@ const LoginModal = (props) => {
       aria-labelledby="contained-modal-title-vcenter"
       centered
       show={props.modalStore}>
-      <Modal.Header>
+      <Modal.Header className="justify-content-center">
         <Modal.Title id="loginModal">
-          <h1>Employee Polls</h1>
+          <h1 className="text-center">Employee Polls</h1>
           <Image
             className="py-4"
             fluid

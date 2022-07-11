@@ -10,7 +10,7 @@ const OptionAnswered = (props) => {
   let currentOptionVotes =
     whichOption === "optionOne" ? optionOneVotes : optionTwoVotes;
   return (
-    <Row>
+    <Row className="my-3">
       <Col>
         <h2>{title}:</h2>
         <p

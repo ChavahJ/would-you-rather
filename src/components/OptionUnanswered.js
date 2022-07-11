@@ -11,7 +11,7 @@ const OptionUnanswered = (props) => {
     handleOnClick(answer);
   };
   return (
-    <Row>
+    <Row className="my-4">
       <Col>
         <h2>{title}:</h2>
         <p>{question[option].text}</p>

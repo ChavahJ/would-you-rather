@@ -8,7 +8,7 @@ import PollPage from "./PollPage";
 import PollCreationPage from "./PollCreationPage";
 import LeaderboardPage from "./LeaderboardPage";
 import NotFoundPage from "./NotFoundPage";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 const App = (props) => {
   useEffect(() => {
@@ -28,8 +28,7 @@ const App = (props) => {
             <Route path="/questions/:question_id" element={<PollPage />} />
             <Route path="/leaderboard" element={<LeaderboardPage />} />
             <Route path="/add" element={<PollCreationPage />} />
-            <Route path="/404" element={<NotFoundPage />} />
-            <Route path="*" element={<Navigate replace to="/404" />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
       )}

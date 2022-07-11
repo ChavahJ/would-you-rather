@@ -1,11 +1,11 @@
 // The application asks the user to sign in and shows a 404 page if that poll does not exist.
 import { connect } from "react-redux";
-import { useEffect } from "react";
 import { addQuestionAnswer } from "../actions/questions";
 import { saveUserAnswer } from "../actions/users";
 import AuthorInfo from "../components/AuthorInfo";
 import OptionUnanswered from "../components/OptionUnanswered";
 import OptionAnswered from "../components/OptionAnswered";
+import NotFoundPage from "./NotFoundPage";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -22,20 +22,15 @@ const withRouter = (Component) => {
 };
 
 const PollPage = (props) => {
-  const { questions, users, authedUser, params, navigate } = props;
+  const { questions, users, authedUser, params } = props;
 
   const qid = params.question_id;
 
   const questionExists = qid in questions;
-  console.log(questionExists);
 
-  useEffect(() => {
-    console.log("useEffect triggered");
-    if (!questionExists) {
-      navigate("/404", { replace: true });
-    }
-  }, [questionExists, navigate]);
-
+  if (!questionExists) {
+    return <NotFoundPage />;
+  }
   let question = questions[qid];
 
   const options = [
@@ -102,7 +97,6 @@ const mapStateToProps = ({ questions, authedUser, users }, props) => {
     questions,
     users,
     params: router.params,
-    navigate: router.navigate,
   };
 };
 export default withRouter(connect(mapStateToProps)(PollPage));
