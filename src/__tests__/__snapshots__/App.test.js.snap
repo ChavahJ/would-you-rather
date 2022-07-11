@@ -3,84 +3,88 @@
 exports[`renders correctly 1`] = `
 Object {
   "asFragment": [Function],
-  "baseElement": <body>
-    <div>
-      <main
-        class="main-container"
-        data-testid="mainContainer"
-      >
-        <div
-          class="my-5 container"
-        >
-          <div
-            class="row"
-          >
-            <div
-              class="col"
-            >
-              <h1>
-                404 Error
-              </h1>
-              <p>
-                Oops! We can't find that page.
-              </p>
-            </div>
-          </div>
-          <div
-            class="row"
-          >
-            <div
-              class="col"
-            >
-              <a
-                href="/login"
-              >
-                Log In
-              </a>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-  </body>,
-  "container": <div>
-    <main
-      class="main-container"
-      data-testid="mainContainer"
+  "baseElement": <body
+    class="modal-open"
+    data-rr-ui-modal-open=""
+    style="padding-right: 1024px;"
+  >
+    <div />
+    <div
+      class="fade modal-backdrop show"
+    />
+    <div
+      aria-labelledby="contained-modal-title-vcenter"
+      aria-modal="true"
+      class="fade modal show"
+      role="dialog"
+      style="display: block; padding-right: 0px;"
+      tabindex="-1"
     >
       <div
-        class="my-5 container"
+        class="modal-dialog modal-lg modal-dialog-centered"
       >
         <div
-          class="row"
+          class="modal-content"
         >
           <div
-            class="col"
+            class="justify-content-center modal-header"
           >
-            <h1>
-              404 Error
-            </h1>
-            <p>
-              Oops! We can't find that page.
-            </p>
-          </div>
-        </div>
-        <div
-          class="row"
-        >
-          <div
-            class="col"
-          >
-            <a
-              href="/login"
+            <div
+              class="modal-title h4"
+              id="loginModal"
             >
-              Log In
-            </a>
+              <h1
+                class="text-center"
+              >
+                Employee Polls
+              </h1>
+              <img
+                alt="happy smiling people"
+                class="py-4 img-fluid"
+                src="login.png"
+              />
+            </div>
+          </div>
+          <div
+            class="modal-body"
+          >
+            <h2>
+              Login Here
+            </h2>
+            <form
+              class=""
+            >
+              <div
+                class="mb-3"
+                data-testid="login-form"
+              >
+                <select
+                  class="form-select"
+                  data-testid="login-select"
+                  id="formUserSelect"
+                >
+                  <option
+                    value="-1"
+                  >
+                    Select a User
+                  </option>
+                </select>
+              </div>
+              <button
+                class="btn btn-primary"
+                data-testid="login-button"
+                disabled=""
+                type="submit"
+              >
+                Submit
+              </button>
+            </form>
           </div>
         </div>
       </div>
-    </main>
-  </div>,
+    </div>
+  </body>,
+  "container": <div />,
   "debug": [Function],
   "findAllByAltText": [Function],
   "findAllByDisplayValue": [Function],

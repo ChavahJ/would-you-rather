@@ -3,13 +3,13 @@ import "@testing-library/jest-dom";
 import { screen, fireEvent } from "@testing-library/react";
 import { renderWithProviders } from "../utils/test-utils";
 import { MemoryRouter } from "react-router-dom";
-import LoginPage from "../containers/LoginPage";
+import LoginModal from "../components/LoginModal";
 
-describe("LoginPage", () => {
+describe("LoginModal", () => {
   it("will have a form, select, and submit button", () => {
     const component = renderWithProviders(
       <MemoryRouter>
-        <LoginPage />
+        <LoginModal />
       </MemoryRouter>
     );
 
@@ -27,7 +27,7 @@ describe("LoginPage", () => {
   it("will change input value", async () => {
     renderWithProviders(
       <MemoryRouter>
-        <LoginPage />
+        <LoginModal />
       </MemoryRouter>
     );
     const select = screen.getByTestId("login-select");
@@ -40,7 +40,7 @@ describe("LoginPage", () => {
   it("when submit button is click user navigates away from the page", async () => {
     const component = renderWithProviders(
       <MemoryRouter>
-        <LoginPage />
+        <LoginModal />
       </MemoryRouter>
     );
     const submitButton = component.getByTestId("login-button");
